@@ -11,3 +11,23 @@ An enhanced Itemnavigator Widget for the Zabbix Dashboard
 
 ## Disruptively Innovative Modifications
 - This widget has been modified to broadcast multiple itemids to other widgets in the gryan337 git repository. As of right now, the zabbix-widgets-svggraph and zabbix-widgets-piechart can accept multiple itemids from this widget. There are significant improvements coming to the zabbix-widgets-table that will provide an even more heightened user experience to help drive drill down behavior in dashboards. More documentation coming soon!
+
+
+# 🚀 Project Roadmap
+
+A high-level view of our project milestones and upcoming goals.
+
+---
+
+## 📍 September 2025
+
+- [ ] Basic documentation written along with screen shots of the enhancements  
+- [ ] Final QA & bug fixes (please submit bugs!)  
+
+---
+
+## 🛠️ Upcoming (Q4 2025)
+
+| Milestone | Status | Target |
+|-----------|--------|--------|
+| Crowd sourced feature requests | Upcoming | Q4 2025 |
