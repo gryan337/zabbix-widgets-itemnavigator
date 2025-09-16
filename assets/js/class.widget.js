@@ -455,7 +455,7 @@ class CWidgetItemNavigatorRME extends CWidget {
 
 		const groupIdentifiers = extractGroupIdentifiers();
 
-		const $inputBox = $('<input type="text" placeholder="Search for a metric..." class="autocomplete-input-itemn">');
+		const $inputBox = $('<input type="text" placeholder="Search for an item grouping..." class="autocomplete-input-itemn">');
 		const $dropdownArrow = $('<div class="zi-chevron-down modified-chevron"></div>');
 		const $dropdown = $('<div class="autocomplete-dropdown-itemn"></div>');
 		const $autocompleteContainer = $('<div class="autocomplete-container-itemn"></div>').append($inputBox).append($dropdownArrow).append($dropdown);
