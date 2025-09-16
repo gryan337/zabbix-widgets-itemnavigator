@@ -9,5 +9,25 @@ An enhanced Itemnavigator Widget for the Zabbix Dashboard
 - By default, the widget will show nothing if there are no Host groups, Hosts or Host tags specified. In large installations this is important so that everything is not displayed until a filter is applied (i.e. from the Host navigator widget or the Table widget).
 - Increases the Item limit substantially. This is also necessary for large Zabbix installations and when using the 'Group by' options with 'Show groupings only'
 
-## Coming Soon...
-- This widget will be able to broadcast itemids and tags to the gryan337 Table widget to allow for more customizable visualizations
+## Disruptively Innovative Modifications
+- This widget has been modified to broadcast multiple itemids to other widgets in the gryan337 git repository. As of right now, the zabbix-widgets-svggraph and zabbix-widgets-piechart can accept multiple itemids from this widget. There are significant improvements coming to the zabbix-widgets-table that will provide an even more heightened user experience to help drive drill down behavior in dashboards. More documentation coming soon!
+
+
+# 🚀 Project Roadmap
+
+A high-level view of our project milestones and upcoming goals.
+
+---
+
+## 📍 September 2025
+
+- [ ] Basic documentation written along with screen shots of the enhancements  
+- [ ] Final QA & bug fixes (please submit bugs!)  
+
+---
+
+## 🛠️ Upcoming (Q4 2025)
+
+| Milestone | Status | Target |
+|-----------|--------|--------|
+| Crowd sourced feature requests | Upcoming | Q4 2025 |
