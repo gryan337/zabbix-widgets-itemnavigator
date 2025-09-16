@@ -73,8 +73,8 @@ $form
 		(new CWidgetFieldCheckBoxView($data['fields']['show_groupings_only']))
 			->setFieldHint(
 				makeHelpIcon([
-					_('By default, this widget show individual metric items. By selecting this '), BR(),
-					_('only groupings specified below will be displayed')
+					_('By default, this widget shows individual metric items. By selecting this '), BR(),
+					_('option, only item groupings specified below will be displayed')
 				])
 			)
 	)
