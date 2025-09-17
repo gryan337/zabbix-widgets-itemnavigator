@@ -35,7 +35,7 @@ This widget extends the standard itemnavigator functionality with a set of inter
 
 - 🚦 **Default empty state**  
   By default, the widget displays nothing unless **Host groups**, **Hosts**, or **Host tags** are specified.  
-  > Prevents overwhelming output in large installations until a filter is applied (e.g., via the Host Navigator widget or Table widget).
+  > Prevents overwhelming output in large installations until a filter is applied (e.g., via the [zabbix-widgets-host-and-group-navigator](https://github.com/gryan337/zabbix-widgets-host-and-group-navigator) widget or the [zabbix-widgets-table](https://github.com/gryan337/zabbix-widgets-table) widget).
 
 - 📈 **Increased item limits**  
   Substantially increases the maximum item limit, enabling scalability for large Zabbix installations and for scenarios where **Group by** is combined with **Show groupings only**.
