@@ -15,7 +15,7 @@ This widget extends the standard itemnavigator functionality with a set of inter
 
 - 🌳 **Navigation tree groupings are clickable**  
   Enables clicking **Group by** nodes in the navigation tree to broadcast all descendant metrics (`itemid`s).  
-  > This widget *strongly* relies on intelligent tagging design for your items. Proper tagging unlocks powerful displays in listening widgets such as [zabbix-widgets-piechart](https://github.com/gryan337/zabbix-widgets-piechart) and [zabbix-widgets-svggraph](https://github.com/gryan337/zabbix-widgets-svggraph).
+  > This widget *strongly* relies on intelligent tagging design for your items. Proper tagging unlocks powerful displays in listening widgets such as [zabbix-widgets-piechart](https://github.com/gryan337/zabbix-widgets-piechart) and [zabbix-widgets-graph](https://github.com/gryan337/zabbix-widgets-graph).
 
 - 🔍 **Search functionality**  
   Adds a search box at the top of the widget panel for quickly filtering item groupings and metrics.  
@@ -59,18 +59,4 @@ A high-level view of our project milestones and upcoming goals.
 | Milestone | Status | Target |
 |-----------|--------|--------|
 | Crowd sourced feature requests | Upcoming | Q4 2025 |
-
-
-
-
-## Functionality and Features
-- This widget primarily adds the ability to broadcast multiple itemids to listening widgets. However, only supported gryan337 widgets will be able to properly accept and process these broadcasts. Until the Zabbix company adds a built-in way to broadcast multiple metrics with a single click, or allows multi-select this widget's capabilities will serve as a way to perform this functionality.
-- When setting 'Group by' options you can now click the 'Group by' in the navigation tree. This will result in broadcasting all descendant metrics in the tree. With this change it is highly important to make use of tags with all of your metrics to enable powerful displays in listening widgets like the gryan337 pie chart and svggraph.
-- Adds a search box at the top of the widget to permit searching the item groupings and metrics.
-- Adds the ability to only show item groupings and not the individual items.
-- By default, the widget will show nothing if there are no Host groups, Hosts or Host tags specified. In large installations this is important so that everything is not displayed until a filter is applied (i.e. from the Host navigator widget or the Table widget).
-- Increases the Item limit substantially. This is also necessary for large Zabbix installations and when using the 'Group by' options with 'Show groupings only'
-
-## Disruptively Innovative Modifications
-- This widget has been modified to broadcast multiple itemids to other widgets in the gryan337 git repository. As of right now, the zabbix-widgets-svggraph and zabbix-widgets-piechart can accept multiple itemids from this widget. There are significant improvements coming to the zabbix-widgets-table that will provide an even more heightened user experience to help drive drill down behavior in dashboards. More documentation coming soon!
 
