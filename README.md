@@ -1,6 +1,7 @@
 # zabbix-widgets-itemnavigator
 An enhanced Itemnavigator Widget for the Zabbix Dashboard
 
+[See the video demonstration!](https://www.youtube.com/watch?v=RD2ubhf-Vas)
 
 # Itemnavigator Widget User Guide
 
