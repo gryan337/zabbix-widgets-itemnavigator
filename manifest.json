@@ -5,7 +5,7 @@
 	"name": "RME Item navigator",
 	"namespace": "RMEItemNavigator",
 	"version": "1.0",
-	"author": "Ryan Eberly",
+	"author": "RME",
 	"description": "Displays item hierarchy with ability to control other widgets based on selected item.",
 	"widget": {
 		"size": {
