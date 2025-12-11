@@ -159,8 +159,10 @@ class CWidgetItemNavigatorRME extends CWidget {
 		}
 
 		if (!this._fields.show_groupings_only) {
-			if (!this.hasEverUpdated() && this.isReferred()) {
-				this.#selected_itemid = this.#getDefaultSelectable();
+			if (this.isReferred() && (this.isFieldsReferredDataUpdated() || !this.hasEverUpdated())) {
+				if (this.#selected_itemid === null || (!this.#hasSelectable() && !this.#selectItemidByKey())) {
+					this.#selected_itemid = this.#getDefaultSelectable();
+				}
 
 				if (this.#selected_itemid !== null) {
 					this.#selected_key_ = this.#items_data.get(this.#selected_itemid).key_;
@@ -169,15 +171,8 @@ class CWidgetItemNavigatorRME extends CWidget {
 				}
 			}
 			else if (this.#selected_itemid !== null) {
-				if (!this.#items_data.has(this.#selected_itemid)) {
-					for (let [itemid, item] of this.#items_data) {
-						if (item.key_ === this.#selected_key_ || item.name === this.#selected_name) {
-							this.#selected_itemid = itemid;
-
-							this.#item_navigator.selectItem(this.#selected_itemid);
-							break;
-						}
-					}
+				if (!this.#items_data.has(this.#selected_itemid) && this.#selectItemidByKey()) {
+					this.#item_navigator.selectItem(this.#selected_itemid);
 				}
 			}
 		}
@@ -233,6 +228,22 @@ class CWidgetItemNavigatorRME extends CWidget {
 				}
 			});
 		}
+	}
+
+	#selectItemidByKey() {
+		for (let [itemid, item] of this.#items_data) {
+			if (item.key_ === this.#selected_key_) {
+				this.#selected_itemid = itemid;
+
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	#hasSelectable() {
+		return this.#items_data.has(this.#selected_itemid);
 	}
 
 	attachScrollListeners() {
