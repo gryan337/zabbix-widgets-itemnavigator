@@ -19,13 +19,17 @@
     cursor: pointer;
     padding: 2px 4px;
     border-radius: 4px;
-    transition: all 0.2s ease;
 }
 
 .nav-hoverable-itemn .navigation-tree-node-info-primary span:hover {
     background-color: var(--span-hover-bg-itemn);
     color: var(--span-hover-color-itemn);
     text-decoration: underline;
+}
+
+.nav-hoverable-itemn .navigation-tree-node-info-primary span:focus-visible {
+    box-shadow: 0 0 0 2px var(--nav-group-focus);
+    outline: none;
 }
 
 .itemnav-selected {
@@ -61,7 +65,7 @@
     padding-right: 10px;
 }
 
-.modified-chevron {
+.modified-chevron-itemn {
     position: absolute;
     right: 20px;
     top: 50%;
@@ -70,7 +74,7 @@
     transition: transform 0.2s ease;
 }
 
-.modified-chevron.open {
+.modified-chevron-itemn.open {
     transform: translateY(-50%) rotate(180deg);
 }
 
@@ -107,6 +111,7 @@
     --autocomplete-hover: var(--autocomplete-hover-dark);
     --span-hover-bg-itemn: var(--span-hover-bg-dark-itemn);
     --span-hover-color-itemn: var(--span-hover-color-dark-itemn);
+    --nav-group-focus: rgba(30, 135, 227, 0.35);
 }
 
 [theme="hc-dark"] {
@@ -115,6 +120,7 @@
     --autocomplete-hover: var(--autocomplete-hover-dark);
     --span-hover-bg-itemn: var(--span-hover-bg-hc-dark-itemn);
     --span-hover-color-itemn: var(--span-hover-color-hc-dark-itemn);
+    --nav-group-focus: #ffffff;
 }
 
 [theme="blue-theme"] {
@@ -123,6 +129,7 @@
     --autocomplete-hover: var(--autocomplete-hover-light);
     --span-hover-bg-itemn: var(--span-hover-bg-light-itemn);
     --span-hover-color-itemn: var(--span-hover-color-light-itemn);
+    --nav-group-focus: rgba(30, 135, 227, 0.35);
 }
 
 [theme="hc-light"] {
@@ -131,4 +138,5 @@
     --autocomplete-hover: var(--autocomplete-hover-light);
     --span-hover-bg-itemn: var(--span-hover-bg-hc-light-itemn);
     --span-hover-color-itemn: var(--span-hover-color-hc-light-itemn);
+    --nav-group-focus: #111111;
 }

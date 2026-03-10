@@ -73,6 +73,7 @@ class CWidgetItemNavigatorRME extends CWidget {
 
 	#searchBoxValue = '';
 	#inputHadFocus = false
+	#focusedNodeIdentifier = null;
 
 	constructor(...args) {
 		super(...args);
@@ -92,6 +93,7 @@ class CWidgetItemNavigatorRME extends CWidget {
 	}
 
 	getUpdateRequestData() {
+		this.#saveFocusedNode();
 		return {
 			...super.getUpdateRequestData(),
 			with_config: this.#item_navigator === null ? 1 : undefined
@@ -158,6 +160,8 @@ class CWidgetItemNavigatorRME extends CWidget {
 			this.initAutocomplete();
 		}
 
+		this.#setupTreeKeyboardNavigation();
+
 		if (!this._fields.show_groupings_only) {
 			if (this.isReferred() && (this.isFieldsReferredDataUpdated() || !this.hasEverUpdated())) {
 				if (this.#selected_itemid === null || (!this.#hasSelectable() && !this.#selectItemidByKey())) {
@@ -209,6 +213,7 @@ class CWidgetItemNavigatorRME extends CWidget {
 		}
 
 		this.scrollToSelection();
+		this.#restoreFocusedNode();
 
 		const autocompleteInput = this._container.querySelector('.autocomplete-input-itemn');
 		const widgetContents = this._container.querySelector('.dashboard-grid-widget-contents');
@@ -324,6 +329,108 @@ class CWidgetItemNavigatorRME extends CWidget {
 		}
 	}
 
+	#saveFocusedNode() {
+		const focused = document.activeElement;
+		if (!focused || !this._container.contains(focused)) return;
+
+		const nameSpan = focused.closest('.navigation-tree-node-info-name');
+		if (!nameSpan) return;
+
+		// Use the group identifier as a stable key across refreshes
+		const groupNode = nameSpan.closest('[data-group_identifier]');
+		if (groupNode) {
+			this.#focusedNodeIdentifier = groupNode.getAttribute('data-group_identifier');
+		}
+	}
+
+	#restoreFocusedNode() {
+		if (!this.#focusedNodeIdentifier) return;
+
+		const node = this._container.querySelector(
+			`[data-group_identifier='${CSS.escape(this.#focusedNodeIdentifier)}']`
+		);
+
+		if (node) {
+			const nameSpan = node.querySelector('.navigation-tree-node-info-name');
+			if (nameSpan) {
+				requestAnimationFrame(() => nameSpan.focus());
+			}
+		}
+	}
+
+	#setupTreeKeyboardNavigation() {
+		const container = this._container.querySelector('.item-navigator');
+		if (!container) return;
+
+		if (this._treeKeydownHandler) {
+			container.removeEventListener('keydown', this._treeKeydownHandler);
+		}
+
+		this._treeKeydownHandler = (event) => {
+			const currentSpan = event.target.closest('.navigation-tree-node-info-name');
+			if (!currentSpan) return;
+
+			const allSpans = Array.from(
+				container.querySelectorAll('.navigation-tree-node-info-name[tabindex="0"]')
+			).filter(s => s.offsetParent !== null);
+
+			const currentIndex = allSpans.indexOf(currentSpan);
+
+			switch (event.key) {
+				case 'ArrowDown': {
+					event.preventDefault();
+					const next = allSpans[currentIndex + 1];
+					if (next) next.focus();
+					break;
+				}
+				case 'ArrowUp': {
+					event.preventDefault();
+					const prev = allSpans[currentIndex - 1];
+					if (prev) prev.focus();
+					break;
+				}
+				case 'Home': {
+					event.preventDefault();
+					if (allSpans.length > 0) allSpans[0].focus();
+					break;
+				}
+				case 'End': {
+					event.preventDefault();
+					if (allSpans.length > 0) allSpans[allSpans.length - 1].focus();
+					break;
+				}
+				case 'ArrowRight': {
+					event.preventDefault();
+					const groupNode = currentSpan.closest('.navigation-tree-node-is-group');
+					if (groupNode && !groupNode.classList.contains('navigation-tree-node-is-open')) {
+						const arrow = groupNode.querySelector('.navigation-tree-node-info-arrow span');
+						if (arrow) arrow.click();
+					}
+					break;
+				}
+				case 'ArrowLeft': {
+					event.preventDefault();
+					const groupNode = currentSpan.closest('.navigation-tree-node-is-group');
+					if (groupNode && groupNode.classList.contains('navigation-tree-node-is-open')) {
+						const arrow = groupNode.querySelector('.navigation-tree-node-info-arrow span');
+						if (arrow) arrow.click();
+					}
+					else {
+						const parentChildren = currentSpan.closest('.navigation-tree-node-children');
+						if (parentChildren) {
+							const parentSpan = parentChildren.parentElement
+								?.querySelector(':scope > .navigation-tree-node-info .navigation-tree-node-info-name');
+							if (parentSpan) parentSpan.focus();
+						}
+					}
+					break;
+				}
+			}
+		};
+
+		container.addEventListener('keydown', this._treeKeydownHandler);
+	}
+
 	#registerListeners() {
 		this.#listeners = {
 			itemSelect: e => {
@@ -429,9 +536,17 @@ class CWidgetItemNavigatorRME extends CWidget {
 			this._autocompleteDragObserver.disconnect();
 			this._autocompleteDragObserver = null;
 		}
+
 		if (this.autocompleteDropdown && this.autocompleteDropdown.parentNode) {
 			this.autocompleteDropdown.remove();
 			this.autocompleteDropdown = null;
+		}
+
+		if (this._treeKeydownHandler) {
+			const container = this._container?.querySelector('.item-navigator');
+			if (container) {
+				container.removeEventListener('keydown', this._treeKeydownHandler);
+			}
 		}
 	}
 
@@ -521,7 +636,7 @@ class CWidgetItemNavigatorRME extends CWidget {
 			'aria-controls': 'autocomplete-dropdown-itemn-' + self._widgetid
 		});
 
-		const $dropdownArrow = $('<div class="zi-chevron-down modified-chevron"></div>');
+		const $dropdownArrow = $('<div class="zi-chevron-down modified-chevron-itemn"></div>');
 		$dropdownArrow.attr({
 			'role': 'button',
 			'tabindex': '0',
@@ -983,6 +1098,21 @@ class CWidgetItemNavigatorRME extends CWidget {
 			this._container.removeEventListener('click', this._delegatedClickHandler);
 		}
 
+		// Setup keyboard access on all name spans
+		this._container.querySelectorAll('.navigation-tree-node-info-name').forEach(nameSpan => {
+			if (nameSpan.dataset.keyboardSetup) return;
+			nameSpan.dataset.keyboardSetup = 'true';
+
+			nameSpan.setAttribute('tabindex', '0');
+
+			nameSpan.addEventListener('keydown', (event) => {
+				if (event.key !== 'Enter' && event.key !== ' ') return;
+				event.preventDefault();
+				event.stopPropagation();
+				nameSpan.click();
+			});
+		});
+
 		this._delegatedClickHandler = (event) => {
 			const infoDiv = event.target.closest('.navigation-tree-node-info');
 			if (
@@ -993,7 +1123,6 @@ class CWidgetItemNavigatorRME extends CWidget {
 				return;
 			}
 
-			// Check if the click is specifically on the span inside primary
 			const primarySpan = event.target.closest('.navigation-tree-node-info-primary span');
 			if (!primarySpan) {
 				return;
