@@ -86,7 +86,7 @@ class WidgetView extends CControllerDashboardWidgetView {
 
 			if (
 					(!$this->fields_values['groupids'] && !$this->fields_values['hostids'] && !$this->fields_values['host_tags']) ||
-					(!$this->fields_values['groupids'] && !$this->fields_values['hostids'] && !$this->fields_values['update_on_filter_only'])
+					(!$this->fields_values['groupids'] && !$this->fields_values['hostids'] && $this->fields_values['host_tags'] && $this->fields_values['update_on_filter_only'])
 				) {
 				$db_hosts = [];
 			}
